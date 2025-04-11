@@ -4,8 +4,10 @@
         <!--FORM CONTAINER -->
         <div v-for="(header, i) in headers" :key="i" style="margin-bottom: 1.5rem;">
             <v-select v-if="header.isArray === true" v-model="data[header.key]" :items="header.items"
-                :label="header.title" :multiple="header.isMultiple"></v-select>
-            <v-text-field v-else v-model="data[header.key]" :label="header.title"></v-text-field>
+                :label="header.title" :multiple="header.isMultiple" :disabled="header.isDisabled"
+                @update:modelValue="header.onUpdateModelValue"></v-select>
+            <v-text-field v-else v-model="data[header.key]" :label="header.title"
+                :disabled="header.isDisabled"></v-text-field>
 
         </div>
         <!-- ERROR LABEL -->
@@ -70,6 +72,14 @@ export default {
         entity: {
             type: String,
             required: true,
+        },
+        onAfterRequest: {
+            type: Function,
+            default: () => {}
+        },
+        onUpdateClick: {
+            type: Function,
+            default: () => {}
         }
     },
     setup(props) {
@@ -87,6 +97,22 @@ export default {
         
         /** table data */
         const tableData = ref([]);
+
+        props.headers.forEach((header, i) => {
+            /** set empty data */
+            if (header.isArray) {
+                emptyData[header.key] = header.isMultiple ? [] : '';
+            } else {
+                emptyData[header.key] = '';
+            }
+
+            /** set onUpdateModelValue default value to avoid warning*/
+            if (!header.hasOwnProperty('onUpdateModelValue')) {
+                props.headers[i].onUpdateModelValue = () => {};
+            }
+
+        });
+        
 
         /** table headers */
         const headers = ref(props.headers);
@@ -107,7 +133,7 @@ export default {
                 const { key, isArray } = props.headers[i];
                 const value = data.value[key];
 
-                if (isArray && value.length < 1) {
+                if (isArray && ( !value || value.length < 1)) {
                     addError(i)
                 } else if (value == "" || !value) {
                     addError(i)
@@ -146,8 +172,10 @@ export default {
                 const docRef = await addDoc(collection(db, props.entity), data.value);
                 data.value.id = docRef.id;
                 tableData.value.push(data.value);
-                data.value = { ...emptyData };
 
+                props.onAfterRequest("POST", data.value);
+                
+                data.value = { ...emptyData };
                 clearError();
 
             } catch (e) {
@@ -161,6 +189,7 @@ export default {
         const deleteItem = async (item) => {
             const deletedData = await deleteDoc(doc(db, props.entity, item.id));
             tableData.value = tableData.value.filter(data => data.id != item.id);
+            props.onAfterRequest("DELETE", item);
         }
 
         /** 
@@ -170,6 +199,8 @@ export default {
         const updateItem = (item) => {
             data.value = item;
             isUpdate.value = true;
+            props.onUpdateClick(item);
+            clearError();
         }
 
         /**
@@ -182,6 +213,7 @@ export default {
 
             const { id, ...bookInfo } = data.value;
             const updatedData = await updateDoc(doc(db, props.entity, id), bookInfo);
+            props.onAfterRequest("PUT", data.value);
             await cancelUpdatedItem();
 
             clearError();
@@ -191,8 +223,10 @@ export default {
          * - de vuelve la tabla a estado de creacion (agregar)
          */
         const cancelUpdatedItem = async () => {
+            props.onAfterRequest("CANCEL", data.value);
             isUpdate.value = false
             data.value = { ...emptyData };
+            clearError();
         }
 
         /**

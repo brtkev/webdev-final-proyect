@@ -1,6 +1,6 @@
 <template>
     <h1 class="view-title"><span style="color: white;"><i class="fa-solid fa-award"></i> Manejo de Calificaciónes</span></h1>
-    <Form :headers="headers"></Form>
+    <!-- <Form :headers="headers"></Form> -->
 </template>
 
 <script>

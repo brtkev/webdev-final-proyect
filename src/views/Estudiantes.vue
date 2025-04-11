@@ -16,22 +16,32 @@ export default {
             });
         });
         
+        const cedulaIsDisabled = ref(false);
+
         const headers = [
             { title: 'Nombre', key: 'nombre' },
             { title: 'Apellido', key: 'apellido' },
-            { title: 'Cedula', key: 'cedula', sortable: true },
-            { title: 'Carrera', key: 'carrera', isArray: true, items: carreras, isMultiple: true },
+            { title: 'Cedula', key: 'cedula', sortable: true, isDisabled: cedulaIsDisabled },
+            { title: 'Carrera', key: 'carreras', isArray: true, items: carreras, isMultiple: true },
         ]
         const entity = entities.estudiantes; 
         
+        const onUpdateClick = (item) => {
+            cedulaIsDisabled.value = true;
+        }
 
-        return { headers, entity };
+        const afterRequest = (method, item) => {
+            if(["PUT", "CANCEL"].includes(method) ){
+                cedulaIsDisabled.value = false;
+            }
+        }
+        return { headers, entity, afterRequest, onUpdateClick };
     }
 }
 </script>
 
 <template>
     <h1 class="view-title"><span style="color: white;"><i class="fa-solid fa-user-graduate"></i> Manejo de Estudiantes</span></h1>
-    <Form :headers="headers" :entity="entity"></Form>
+    <Form :headers="headers" :entity="entity" @after-request="afterRequest" @update-click="onUpdateClick"></Form>
 </template>
 

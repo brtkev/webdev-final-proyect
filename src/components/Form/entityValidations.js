@@ -1,18 +1,11 @@
 import { collection, getDocs, } from "firebase/firestore/lite";
-import { db } from "@/Database/firestore.js";
-// import { entity as estudiantesEntity } from "@/views/Estudiantes.vue";
+import { db, entities, getCollection } from "@/Database/firestore.js";
+
 
 export async function validateBeforeRequest({entity, data}){
 
-    if(entity === "estudiantes"){
-        const entityCollection = collection(db, estudiantesEntity);
-        const entityDocs = await getDocs(entityCollection);
-        const dataList = entityDocs.docs.map(doc => ({
-            'id': doc.id,
-            ...doc.data()
-        }));
-
-        
+    if(entity === entities.estudiantes){
+        const dataList = await getCollection(entity);
 
         if(dataList.some( item => item.cedula === data.cedula)){
             return {
@@ -22,6 +15,22 @@ export async function validateBeforeRequest({entity, data}){
         };
         
         
+    } else if( entity === entities.asignaturas){
+        const dataList = await getCollection(entity);
+        if(dataList.some( item => item.nombre === data.nombre)){
+            return {
+                'status': false,
+                'message': 'Esa asignatura ya existe'
+            };
+        };
+    }else if( entity === entities.matriculaciones){
+        const dataList = await getCollection(entity);
+        if(dataList.some( item => item.estudiante === data.estudiante)){
+            return {
+                'status': false,
+                'message': 'Ya existe una matricula para ese estudiante'
+            };
+        };
     }
     
     return {

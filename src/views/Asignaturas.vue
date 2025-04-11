@@ -1,6 +1,6 @@
 <template>
     <h1 class="view-title"><span style="color: white;"><i class="fa-solid fa-book-open"></i> Manejo de Asignaturas</span></h1>
-    <Form :headers="headers" :entity="entity"></Form>
+    <Form :headers="headers" :entity="entity" @after-request="afterRequest" @update-click="onUpdateClick"></Form>
 </template>
 
 <script>
@@ -33,15 +33,29 @@ export default {
             });
         });
 
+        const nombreIsDisabled = ref(false);
+
         const headers = [
-            { title: 'Nombre', key: 'nombre' },
+            { title: 'Nombre', key: 'nombre', isDisabled: nombreIsDisabled },
             { title: 'Semestre', key: 'semestre', isArray: true, items: semestres, isMultiple: false },
             { title: 'Creditos', key: 'creditos', sortable: true },
             { title: 'Carreras', key: 'carrera', isArray: true, items: carreras, isMultiple: true },
         ]
+
+        const afterRequest = (method, item) => {
+            if(["PUT", "CANCEL"].includes(method) ){
+                nombreIsDisabled.value = false;
+            }
+        }
+
+        const onUpdateClick = (item) => {
+            nombreIsDisabled.value = true;
+        }
         return {
             headers,   
-            entity
+            entity,
+            afterRequest,
+            onUpdateClick
         }
     }
 }
