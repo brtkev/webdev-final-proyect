@@ -7,12 +7,16 @@ export const asignaturas = ref([]);
 /** LLENA ASIGNATURAS */
 export async function refreshAsignaturas() {
   const asignaturasData = await getCollection(entities.asignaturas);
-  // .then((data) => {
-  // });
+  /** vacia asignatura */
+  while (ASIGNATURAS.length) {
+    ASIGNATURAS.pop();
+  }
+  /** sortea asignatura */
   asignaturasData
     .sort((a, b) => {
       return a.nombre.localeCompare(b.nombre);
     })
+    /** llena asignatura */
     .forEach((item) => {
       ASIGNATURAS.push({
         title: item.nombre,
@@ -67,7 +71,7 @@ export const afterRequest = (method, item) => {
   }
 };
 
-/** MANEJA EL COMPORTAMIENTO DEL FORMULARIO AL ENTRAR EN MODOD EDICION*/
+/** MANEJA EL COMPORTAMIENTO DEL FORMULARIO AL ENTRAR EN MODO EDICION*/
 export const onUpdateClick = (item) => {
   asignaturasIsDisabled.value = false;
   estudianteIsDisabled.value = true;

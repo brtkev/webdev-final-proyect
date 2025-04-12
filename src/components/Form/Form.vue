@@ -25,24 +25,8 @@
         </v-container>
 
         <!-- FORM TABLE -->
-        <v-data-table :headers="tableHeaders" :items="tableData" class="elevation-1">
-            <template v-for="header in tableHeaders" :key="header.key" v-slot:[`item.${header.key}`]="{ item }">
-                <template v-if="header.isArray === true && header.isMultiple === true">
-                    {{ item[header.key]?.join(', ') }}
-                </template>
-                <template v-else-if="header.key === 'actions'">
-                    <v-icon size="small" @click="updateItem(item)" style="padding-right: 2rem">
-                        mdi-pencil
-                    </v-icon>
-                    <v-icon size="small" @click="deleteItem(item)">
-                        mdi-delete
-                    </v-icon>
-                </template>
-                <template v-else>
-                    {{ item[header.key] }}
-                </template>
-            </template>
-        </v-data-table>
+        <Table :tableHeaders="tableHeaders" :tableData="tableData" @updateItem="updateItem" @deleteItem="deleteItem"></Table>
+
     </v-app>
 </template>
 
@@ -54,7 +38,11 @@ import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase
 import { validateBeforeRequest } from './entityValidations';
 
 import { db } from '../../Database/firestore';
+import Table from '../Table/Table.vue';
 export default {
+    components: {
+        Table
+    },
     props: {
         headers: {
             type: Array,

@@ -29,8 +29,8 @@ export const db = getFirestore(app);
 export const entities = {
   estudiantes: "estudiantes",
   asignaturas: "asignaturas",
-  calificaciones: "calificaciones",
   matriculaciones: "matriculaciones",
+  calificaciones: "calificaciones",
   reportes: "reportes",
   semestres: "semestres",
   carreras: "carreras",

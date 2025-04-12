@@ -26,10 +26,16 @@ export default {
         Form
     },
     setup() {
+        /** FORM DEFAULT STATE */
+        estudianteIsDisabled.value = false;
+        asignaturasIsDisabled.value = true;
 
         /** refresca los hooks */
-        refreshAsignaturas();
-        refreshEstudiantes();
+        Promise.all([
+            refreshAsignaturas(),
+            refreshEstudiantes()
+        ])
+
 
         return {
             headers,
