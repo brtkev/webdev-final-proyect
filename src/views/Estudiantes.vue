@@ -21,7 +21,7 @@ export default {
         const headers = [
             { title: 'Nombre', key: 'nombre' },
             { title: 'Apellido', key: 'apellido' },
-            { title: 'Cedula', key: 'cedula', sortable: true, isDisabled: cedulaIsDisabled },
+            { title: 'Cedula', key: 'cedula', isNumber: true, min: 1, sortable: true, isDisabled: cedulaIsDisabled },
             { title: 'Carrera', key: 'carreras', isArray: true, items: carreras, isMultiple: true },
         ]
         const entity = entities.estudiantes; 

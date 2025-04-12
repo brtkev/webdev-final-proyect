@@ -1,19 +1,48 @@
+<!-- DEF TITULO Y FORMULARIO -->
 <template>
-    <h1 class="view-title"><span style="color: white;"><i class="fa-solid fa-award"></i> Manejo de Calificaciónes</span></h1>
-    <!-- <Form :headers="headers"></Form> -->
+    <h1 class="view-title"><span style="color: white;"><i class="fa-solid fa-school-flag"></i> Manejo de
+            Matriculaciones</span></h1>
+    <Form :headers="headers" :entity="entity" @after-request="afterRequest" @update-click="onUpdateCalificacionesClick"></Form>
 </template>
 
+
 <script>
+/** IMPORTES */
+import Form from '@/components/Form/Form.vue';
+import { entities } from '@/Database/firestore.js';
+import { asignaturas, refreshAsignaturas, estudiantes, refreshEstudiantes, estudianteIsDisabled, asignaturasIsDisabled, onUpdateEstudianteModel, afterRequest, onUpdateClick } from './HandleEstudiantesYAsignaciones.js'
+
+
+
+/** ENTIDAD DE LA VISTA */
+const entity = entities.calificaciones;
+
+/** MANEJA EL COMPORTAMIENTO DEL FORMULARIO AL ENTRAR EN MODOD EDICION*/
+const onUpdateCalificacionesClick = (item) => {
+    onUpdateClick(item);
+    asignaturasIsDisabled.value = true;
+}
+
+/** HEADERS */
+const headers = [
+    { title: 'Estudiante', key: 'estudiante', isArray: true, items: estudiantes, isMultiple: false, onUpdateModelValue: onUpdateEstudianteModel, isDisabled: estudianteIsDisabled },
+    { title: 'Asignatura', key: 'asignatura', isArray: true, items: asignaturas, isMultiple: false, isDisabled: asignaturasIsDisabled },
+    { title: 'Calificacion', key: 'calificacion', isNumber: true, max: 20, min: 0 },
+]
 
 export default {
-    setup(){
+    components: {
+        Form
+    },
+    setup() {
+        /** refresca los hooks */
+        refreshAsignaturas();
+        refreshEstudiantes();
         return {
-            headers: [
-                { title: 'Nombre', key: 'name' },
-                { title: 'Autor', key: 'author' },
-                { title: 'Año', key: 'year', sortable: true },
-                { title: 'Género', key: 'genres', isArray: true, items: ['Ficción', 'No ficción', 'Ciencia ficción', 'Fantasía', 'Misterio', 'Biografía', 'Terror', 'Romance'] },
-            ]
+            headers,
+            entity,
+            afterRequest,
+            onUpdateCalificacionesClick
         }
     }
 }

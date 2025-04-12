@@ -3,9 +3,11 @@
 
         <!--FORM CONTAINER -->
         <div v-for="(header, i) in headers" :key="i" style="margin-bottom: 1.5rem;">
-            <v-select v-if="header.isArray === true" v-model="data[header.key]" :items="header.items"
-                :label="header.title" :multiple="header.isMultiple" :disabled="header.isDisabled"
+            <v-select v-if="header.isArray" v-model="data[header.key]" :items="header.items" :label="header.title"
+                :multiple="header.isMultiple" :disabled="header.isDisabled"
                 @update:modelValue="header.onUpdateModelValue"></v-select>
+            <v-number-input v-else-if="header.isNumber" v-model="data[header.key]" :label="header.title"
+                :disabled="header.isDisabled" :max="header.max" :min="header.min"></v-number-input>
             <v-text-field v-else v-model="data[header.key]" :label="header.title"
                 :disabled="header.isDisabled"></v-text-field>
 
@@ -60,7 +62,7 @@ export default {
             validator: (value) => {
                 return value.every(item => {
                     const required = item.hasOwnProperty('title') && item.hasOwnProperty('key');
-                    if(item.isArray) {
+                    if (item.isArray) {
                         return required && item.hasOwnProperty('items') && isRef(item.items);
                     } else {
                         return required;
@@ -75,16 +77,16 @@ export default {
         },
         onAfterRequest: {
             type: Function,
-            default: () => {}
+            default: () => { }
         },
         onUpdateClick: {
             type: Function,
-            default: () => {}
+            default: () => { }
         }
     },
     setup(props) {
         /** default data */
-        const emptyData = {  };
+        const emptyData = {};
         /** form state is for updating */
         const isUpdate = ref(false);
         /** for state is in error */
@@ -92,9 +94,10 @@ export default {
         /** error messages */
         const errorList = ref([]);
         /** form data */
-        const data = ref({...emptyData});
+        const data = ref({ ...emptyData });
+        let updateOriginalData = { ...emptyData };
         /** select genres */
-        
+
         /** table data */
         const tableData = ref([]);
 
@@ -102,21 +105,23 @@ export default {
             /** set empty data */
             if (header.isArray) {
                 emptyData[header.key] = header.isMultiple ? [] : '';
+            } else if (header.isNumber) {
+                emptyData[header.key] = 0;
             } else {
                 emptyData[header.key] = '';
             }
 
             /** set onUpdateModelValue default value to avoid warning*/
             if (!header.hasOwnProperty('onUpdateModelValue')) {
-                props.headers[i].onUpdateModelValue = () => {};
+                props.headers[i].onUpdateModelValue = () => { };
             }
 
         });
-        
+
 
         /** table headers */
         const headers = ref(props.headers);
-        
+
         const tableHeaders = [...props.headers, { title: 'Acciones', key: 'actions' }];
 
         /** validate form state using the book hook, if error returns true */
@@ -133,7 +138,7 @@ export default {
                 const { key, isArray } = props.headers[i];
                 const value = data.value[key];
 
-                if (isArray && ( !value || value.length < 1)) {
+                if (isArray && (!value || value.length < 1)) {
                     addError(i)
                 } else if (value == "" || !value) {
                     addError(i)
@@ -151,6 +156,23 @@ export default {
             errorList.value = [];
         }
 
+        /** form state */
+        /** state update */
+        const setFormStateToUpdate = (item) => {
+            data.value = item;
+            updateOriginalData = {...item};
+            
+            isUpdate.value = true;
+            clearError();
+        }
+        /** state create */
+        const setFormStateToCreate = () => {
+            isUpdate.value = false
+            updateOriginalData = { ...emptyData };
+            data.value = { ...emptyData };
+            clearError();
+        }
+
         /** 
          * - valida que el formulario este completo
          * - agrega a la tabla el libro del formalario al hacer click en agregar
@@ -160,10 +182,10 @@ export default {
             if (validateData()) return;
 
             try {
-                const {status, message} = await validateBeforeRequest({entity: props.entity, data: data.value});
-                
+                const { status, message } = await validateBeforeRequest({ entity: props.entity, data: data.value });
 
-                if (!status){
+
+                if (!status) {
                     errorList.value.push(message);
                     isError.value = true;
                     return;
@@ -174,7 +196,7 @@ export default {
                 tableData.value.push(data.value);
 
                 props.onAfterRequest("POST", data.value);
-                
+
                 data.value = { ...emptyData };
                 clearError();
 
@@ -197,9 +219,8 @@ export default {
          * - cambia el estado del form a edicion (update)
          */
         const updateItem = (item) => {
-            data.value = item;
-            isUpdate.value = true;
             props.onUpdateClick(item);
+            setFormStateToUpdate(item);
             clearError();
         }
 
@@ -214,20 +235,23 @@ export default {
             const { id, ...bookInfo } = data.value;
             const updatedData = await updateDoc(doc(db, props.entity, id), bookInfo);
             props.onAfterRequest("PUT", data.value);
-            await cancelUpdatedItem();
-
-            clearError();
+            setFormStateToCreate();
         }
 
         /**
          * - de vuelve la tabla a estado de creacion (agregar)
          */
-        const cancelUpdatedItem = async () => {
+        const cancelUpdatedItem = () => {
             props.onAfterRequest("CANCEL", data.value);
-            isUpdate.value = false
-            data.value = { ...emptyData };
-            clearError();
+            const dataIndex = tableData.value.findIndex(data => data.id == updateOriginalData.id);
+            const tableDataValue = tableData.value;
+            tableDataValue[dataIndex] = updateOriginalData;
+            tableData.value = tableDataValue;
+
+            setFormStateToCreate();
         }
+
+
 
         /**
          * - llena la tabla con los libros
@@ -274,10 +298,10 @@ export default {
 
 
 /* Styles for small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 600px)  {
+@media only screen and (max-width: 600px) {
     /* Your CSS rules for small mobile devices/small tablets */
 
-    .form-container{
+    .form-container {
         max-width: 300px;
     }
 

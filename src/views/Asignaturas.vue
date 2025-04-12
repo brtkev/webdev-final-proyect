@@ -38,7 +38,7 @@ export default {
         const headers = [
             { title: 'Nombre', key: 'nombre', isDisabled: nombreIsDisabled },
             { title: 'Semestre', key: 'semestre', isArray: true, items: semestres, isMultiple: false },
-            { title: 'Creditos', key: 'creditos', sortable: true },
+            { title: 'Creditos', key: 'creditos', isNumber: true, sortable: true },
             { title: 'Carreras', key: 'carrera', isArray: true, items: carreras, isMultiple: true },
         ]
 
