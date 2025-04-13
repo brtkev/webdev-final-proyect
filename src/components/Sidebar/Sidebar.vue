@@ -16,7 +16,7 @@ export default {
 
 <template>
     <div class="sidebar" :style="{ width: sidebarWidth }">
-        <h1>
+        <h1 class="sidebar-title">
             <span v-if="collapsed">
                 <div>M</div>
                 <div>U</div>
@@ -77,7 +77,7 @@ h1{
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 0.75em;
+    padding: 0.70em;
     margin: 0;
 
     color: rgba(255, 255, 255, 0.7);
@@ -92,5 +92,9 @@ h1{
 .rotate-180 {
     transform: rotate(180deg);
     transition: 0.2s linear;
+}
+
+.sidebar-title{
+    font-size: 1.5em;
 }
 </style>

@@ -4,6 +4,12 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+/** TOOLTIP */
+// https://github.com/maciejziemichod/v-tooltip/blob/main/README.md
+import tooltip from "./directives/tooltip.js";
+import "@/assets/tooltip.css";
+
+
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
@@ -25,5 +31,7 @@ const app = createApp(App)
 app.use(router)
 
 app.use(vuetify)
+
+app.directive("tooltip", tooltip);
 
 app.mount('#app')

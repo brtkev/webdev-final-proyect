@@ -18,20 +18,24 @@
         </v-container>
 
         <!-- FORM BUTTONS -->
-        <v-btn v-if="!isUpdate" @click="addItem" style="margin-bottom: 1.5rem;">Agregar</v-btn>
+        <v-btn class="form-button form-save-button" v-if="!isUpdate" @click="addItem"
+            style="margin-bottom: 1.5rem;">Agregar</v-btn>
         <v-container v-else class="update-buttons-container">
-            <v-btn class="form-button" style="margin-right: 1.5rem;" @click="saveUpdatedItem">Actualizar</v-btn>
-            <v-btn class="form-button" @click="cancelUpdatedItem">Cancelar</v-btn>
+            <v-btn class="form-button form-update-button form-save-button" style="margin-right: 1.5rem;"
+                @click="saveUpdatedItem">Actualizar</v-btn>
+            <v-btn class="form-button form-update-button form-update-cancel-button"
+                @click="cancelUpdatedItem">Cancelar</v-btn>
         </v-container>
 
         <!-- FORM TABLE -->
-        <Table :tableHeaders="tableHeaders" :tableData="tableData" @updateItem="updateItem" @deleteItem="deleteItem"></Table>
+        <Table :tableHeaders="tableHeaders" :tableData="tableData" @updateItem="updateItem" @deleteItem="deleteItem">
+        </Table>
 
     </v-app>
 </template>
 
 <script>
-import { ref, onMounted, isRef } from 'vue'
+import { ref, onMounted, isRef, reactive } from 'vue'
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore/lite';
 
 
@@ -87,7 +91,7 @@ export default {
         /** select genres */
 
         /** table data */
-        const tableData = ref([]);
+        const tableData = reactive([]);
 
         props.headers.forEach((header, i) => {
             /** set empty data */
@@ -148,8 +152,8 @@ export default {
         /** state update */
         const setFormStateToUpdate = (item) => {
             data.value = item;
-            updateOriginalData = {...item};
-            
+            updateOriginalData = { ...item };
+
             isUpdate.value = true;
             clearError();
         }
@@ -181,7 +185,7 @@ export default {
 
                 const docRef = await addDoc(collection(db, props.entity), data.value);
                 data.value.id = docRef.id;
-                tableData.value.push(data.value);
+                tableData.push(data.value);
 
                 props.onAfterRequest("POST", data.value);
 
@@ -197,8 +201,13 @@ export default {
          * - elimina el libro de la tabla y de firestore
          */
         const deleteItem = async (item) => {
+
             const deletedData = await deleteDoc(doc(db, props.entity, item.id));
-            tableData.value = tableData.value.filter(data => data.id != item.id);
+            const filteredTableData = tableData.filter(data => data.id != item.id);
+            while (tableData.length > 0) {
+                tableData.pop();
+            }
+            tableData.push(...filteredTableData);
             props.onAfterRequest("DELETE", item);
         }
 
@@ -231,10 +240,8 @@ export default {
          */
         const cancelUpdatedItem = () => {
             props.onAfterRequest("CANCEL", data.value);
-            const dataIndex = tableData.value.findIndex(data => data.id == updateOriginalData.id);
-            const tableDataValue = tableData.value;
-            tableDataValue[dataIndex] = updateOriginalData;
-            tableData.value = tableDataValue;
+            const dataIndex = tableData.findIndex(data => data.id == updateOriginalData.id);
+            tableData[dataIndex] = updateOriginalData;
 
             setFormStateToCreate();
         }
@@ -253,7 +260,7 @@ export default {
             }));
 
             dataList.forEach(data => {
-                tableData.value.push(data)
+                tableData.push(data)
             })
         })
 
@@ -271,10 +278,27 @@ export default {
     margin-bottom: 1.5rem;
 }
 
-.form-button {
+.form-button:hover {
+    background-color: #2c3e50;
+    color: white;
+    transition: 0.3s ease;
+    transform: scale(1.05);
+
+}
+
+.form-update-button {
     margin: 0;
     flex: 1;
 }
+
+.form-save-button {
+    background-color: lightgreen;
+}
+
+.form-update-cancel-button {
+    background-color: lightcoral;
+}
+
 
 .form-container {
     max-width: 600px;

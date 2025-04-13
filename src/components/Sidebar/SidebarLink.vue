@@ -61,6 +61,7 @@ export default {
 
 .link:hover{
     background-color: var(--sidebar-item-hover);
+    transform: scale(1.2);
 }
 
 .link.active{
@@ -69,6 +70,7 @@ export default {
 
 .link.collapsed{
     padding: 0;
+    padding-right: 1.5em;
     margin: 0.4em 0;
 }
 
@@ -77,5 +79,6 @@ export default {
     width: 25px;
     margin-right: 10px;
 }
+
 
 </style>

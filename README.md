@@ -58,10 +58,11 @@ Registrar calificación (Nivel 1)
 Consultar calificación (Nivel 1)
 Modificar calificación (Nivel 2)
 Eliminar calificación (Nivel 3)
-Reporte
 
+
+Reporte
 
 Generar reporte (Nivel 2)
 
+authenticacion 
 # todo
-adding getCollection function to estudiantes.vue
