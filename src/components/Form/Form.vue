@@ -301,7 +301,7 @@ export default {
 
 
 .form-container {
-    max-width: 600px;
+    max-width: 768px;
     margin: 0 auto;
     padding: 1rem;
     border-radius: 8px;
@@ -309,8 +309,8 @@ export default {
 }
 
 
-/* Styles for small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 600px) {
+/* Styles for small devices (portrait tablets and large phones, 768px and up) */
+@media only screen and (max-width: 768px) {
     /* Your CSS rules for small mobile devices/small tablets */
 
     .form-container {

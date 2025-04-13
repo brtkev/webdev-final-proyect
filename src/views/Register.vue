@@ -74,7 +74,7 @@ const onSignInWithGoogle = () => {
 
 <style scoped>
 .main-container {
-    width: 600px;
+    width: 768px;
 }
 
 .button-container {
@@ -95,7 +95,7 @@ const onSignInWithGoogle = () => {
     transform: scale(1.05);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     /* Your CSS rules for small mobile devices/small tablets */
 
     .main-container {

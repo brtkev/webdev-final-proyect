@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 
-const windowAutoCollapseWidth = 600;
+const windowAutoCollapseWidth = 768;
 
 /** MANEJA EL ESTADO DE LA SIDEBAR */
 export const collapsed = ref(window.innerWidth <= windowAutoCollapseWidth);

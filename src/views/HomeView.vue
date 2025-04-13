@@ -30,7 +30,7 @@
 <style scoped>
 
 .main-container{
-  width: 600px;
+  width: 768px;
 }
 
 .paragraph-container{
@@ -51,8 +51,8 @@
 }
 
 
-/* Styles for small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 600px) {
+/* Styles for small devices (portrait tablets and large phones, 768px and up) */
+@media only screen and (max-width: 768px) {
     /* Your CSS rules for small mobile devices/small tablets */
 
     .main-container {

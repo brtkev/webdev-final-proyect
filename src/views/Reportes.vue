@@ -128,7 +128,7 @@ export default {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
 
-    width: 600px;
+    width: 768px;
     margin: 0 auto;
     padding: 20px;
     border-radius: 8px;
@@ -146,8 +146,8 @@ export default {
     margin-bottom: 1em;
 }
 
-/* Styles for small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 600px) {
+/* Styles for small devices (portrait tablets and large phones, 768px and up) */
+@media only screen and (max-width: 768px) {
     /* Your CSS rules for small mobile devices/small tablets */
 
     .report-card {
