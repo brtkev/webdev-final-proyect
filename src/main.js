@@ -4,6 +4,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+import '@/database/firebase.js';
+
 /** TOOLTIP */
 // https://github.com/maciejziemichod/v-tooltip/blob/main/README.md
 import tooltip from "./directives/tooltip.js";

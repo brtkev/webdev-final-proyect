@@ -9,7 +9,6 @@ export const toggleSidebar = () => {
 }
 
 /** MANEJA EL ESTADO DE LA SIDEBAR AL CAMBIAR EL TAMAÑO DE LA PANTALLA */
-let lastWindowWidth = window.innerWidth;
 window.addEventListener("resize", (e) => {
   
   collapsed.value = e.target.innerWidth <= windowAutoCollapseWidth;

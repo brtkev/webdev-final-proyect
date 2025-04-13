@@ -1,17 +1,24 @@
-<script>
+<script setup>
 
+import { ref, onMounted } from 'vue';
 import SidebarLink from './SidebarLink.vue';
 import { collapsed, toggleSidebar, sidebarWidth } from './state.js';
-export default {
-    props: {},
-    components: {
-        SidebarLink,
-    },
-    setup() {
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-        return { collapsed, toggleSidebar, sidebarWidth };
-    }
-}
+const isLoggedIn = ref(false);
+let auth;
+
+onMounted(() => {
+    auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            isLoggedIn.value = true;
+        } else {
+            isLoggedIn.value = false;
+        }
+    });
+
+})
 </script>
 
 <template>
@@ -23,12 +30,21 @@ export default {
             </span>
             <span v-else>Manejo Universitario</span>
         </h1>
-        <SidebarLink to="/" icon="fas fa-home">Home</SidebarLink>
-        <SidebarLink to="/estudiantes" icon="fa-solid fa-user-graduate">Estudiantes</SidebarLink>
-        <SidebarLink to="/asignaturas" icon="fas fa-book-open">Asignaturas</SidebarLink>
-        <SidebarLink to="/matriculaciones" icon="fa-solid fa-school-flag">Matriculaciónes</SidebarLink>
-        <SidebarLink to="/calificaciones" icon="fa-solid fa-award">Calificaciónes</SidebarLink>
-        <SidebarLink to="/reportes" icon="fa-solid fa-laptop-file">Reportes</SidebarLink>
+        <nav>
+            <SidebarLink v-if="isLoggedIn" to="/log-out" icon="fa-solid  fa-sign-out">Cerrar Sesion</SidebarLink>
+            <SidebarLink to="/" icon="fas fa-home">Home</SidebarLink>
+            <v-container class="nav-subcontainer" v-if="!isLoggedIn">
+                <SidebarLink to="/sign-in" icon="fa-solid fa-sign-in">Iniciar Sesion</SidebarLink>
+                <SidebarLink to="/register" icon="fa-solid  fa-address-book">Registrarse</SidebarLink>
+            </v-container>
+            <v-container class="nav-subcontainer" v-if="isLoggedIn">
+                <SidebarLink to="/estudiantes" icon="fa-solid fa-user-graduate">Estudiantes</SidebarLink>
+                <SidebarLink to="/asignaturas" icon="fas fa-book-open">Asignaturas</SidebarLink>
+                <SidebarLink to="/matriculaciones" icon="fa-solid fa-school-flag">Matriculaciónes</SidebarLink>
+                <SidebarLink to="/calificaciones" icon="fa-solid fa-award">Calificaciónes</SidebarLink>
+                <SidebarLink to="/reportes" icon="fa-solid fa-laptop-file">Reportes</SidebarLink>
+            </v-container>
+        </nav>
 
 
         <span class="collapse-icon" @click="toggleSidebar" :class="{ 'rotate-180': collapsed }">
@@ -40,7 +56,7 @@ export default {
 
 <style>
 :root {
-    --sidebar-bg-color: #2f855a;
+    --sidebar-bg-color: #2f855aee;
     --sidebar-item-hover: #38a169;
     --sidebar-item-active: #276749;
 }
@@ -74,7 +90,7 @@ h1{
 }
 
 .collapse-icon {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     padding: 0.70em;
@@ -96,5 +112,10 @@ h1{
 
 .sidebar-title{
     font-size: 1.5em;
+}
+
+.nav-subcontainer{
+    margin: 0;
+    padding: 0;
 }
 </style>

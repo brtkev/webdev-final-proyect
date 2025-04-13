@@ -50,13 +50,22 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+
 /* Styles for small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 600px) {
-  /* Your CSS rules for small mobile devices/small tablets */
+    /* Your CSS rules for small mobile devices/small tablets */
 
-  .main-container {
-    width: 300px;
-  }
+    .main-container {
+        max-width: 350px;
+    }
+
+}
+@media only screen and (max-width: 400px) {
+    /* Your CSS rules for small mobile devices/small tablets */
+
+    .main-container {
+        max-width: 220px;
+    }
 
 }
 </style>

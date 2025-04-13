@@ -8,7 +8,7 @@
 <script>
 /** IMPORTES */
 import Form from '@/components/Form/Form.vue';
-import { entities } from '@/Database/firestore.js';
+import { entities } from '@/database/firebase.js';
 import { asignaturas, refreshAsignaturas, estudiantes, refreshEstudiantes, estudianteIsDisabled, asignaturasIsDisabled, onUpdateEstudianteModel, afterRequest, onUpdateClick } from '../components/viewHandlers/HandleEstudiantesYAsignaciones.js'
 
 

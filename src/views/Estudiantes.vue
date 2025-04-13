@@ -9,7 +9,7 @@
 /** IMPORTES */
 import { ref } from 'vue';
 import Form from '@/components/Form/Form.vue'
-import { getCollection, entities } from '@/Database/firestore.js';
+import { getCollection, entities } from '@/database/firebase.js';
 
 /** ENTIDAD DE LA VISTA */
 const entity = entities.estudiantes;

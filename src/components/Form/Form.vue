@@ -41,7 +41,7 @@ import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase
 
 import { validateBeforeRequest } from './entityValidations';
 
-import { db } from '../../Database/firestore';
+import { db } from '../../database/firebase';
 import Table from '../Table/Table.vue';
 export default {
     components: {
@@ -314,7 +314,15 @@ export default {
     /* Your CSS rules for small mobile devices/small tablets */
 
     .form-container {
-        max-width: 300px;
+        max-width: 350px;
+    }
+
+}
+@media only screen and (max-width: 400px) {
+    /* Your CSS rules for small mobile devices/small tablets */
+
+    .form-container {
+        max-width: 220px;
     }
 
 }

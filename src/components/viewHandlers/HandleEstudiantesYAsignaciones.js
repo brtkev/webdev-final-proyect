@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { getCollection, entities } from "@/Database/firestore.js";
+import { getCollection, entities } from "@/database/firebase.js";
 
 /** DEF ASIGNATURA INICIAL Y ASIGNATURA DEL FORMULARIO */
 const ASIGNATURAS = [];

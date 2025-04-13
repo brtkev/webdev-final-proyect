@@ -1,5 +1,5 @@
 import { collection, getDocs, } from "firebase/firestore/lite";
-import { db, entities, getCollection } from "@/Database/firestore.js";
+import { db, entities, getCollection } from "@/database/firebase.js";
 
 
 /** VALIDACIONES BACKEND */

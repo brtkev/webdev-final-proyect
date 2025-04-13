@@ -2,11 +2,7 @@
 import {
   getFirestore,
   collection,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  doc,
-  updateDoc,
+  getDocs
 } from "firebase/firestore/lite";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";

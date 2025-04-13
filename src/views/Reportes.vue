@@ -17,7 +17,7 @@
 /** IMPORTES */
 import { ref, onMounted, reactive } from 'vue';
 import Table from '@/components/Table/Table.vue';
-import { entities, getCollection } from '@/Database/firestore.js';
+import { entities, getCollection } from '@/database/firebase.js';
 import {
     reportesEstudiantes,
     reportesAsignaturas,
@@ -151,7 +151,15 @@ export default {
     /* Your CSS rules for small mobile devices/small tablets */
 
     .report-card {
-        max-width: 300px;
+        max-width: 350px;
+    }
+
+}
+@media only screen and (max-width: 400px) {
+    /* Your CSS rules for small mobile devices/small tablets */
+
+    .report-card {
+        max-width: 220px;
     }
 
 }
