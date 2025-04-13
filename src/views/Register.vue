@@ -12,15 +12,18 @@
 
 </template>
 <script setup>
-
+/** IMPORTS */
 import { ref } from 'vue';
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
+
+/** HOOKS */
 const router = useRouter();
 const email = ref('');
 const password = ref('');
 const errorMsg = ref();
+/** MANEJA EL REGISTRO */
 const onRegister = () => {
     createUserWithEmailAndPassword(getAuth(), email.value, password.value)
         .then((userCredential) => {
@@ -46,6 +49,8 @@ const onRegister = () => {
             }
         });
 }
+
+/** MANEJA EL LOGIN CON GOOGLE */
 const onSignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(getAuth(), provider)

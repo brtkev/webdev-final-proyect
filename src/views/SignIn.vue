@@ -12,15 +12,17 @@
 
 </template>
 <script setup>
-
+/** IMPORTS */
 import { ref } from 'vue';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
+/** HOOKS */
 const router = useRouter();
 const email = ref('');
 const password = ref('');
 const errorMsg = ref();
+/** MANEJA EL LOG IN */
 const onSignIn = () => {
     signInWithEmailAndPassword(getAuth(), email.value, password.value)
         .then((userCredential) => {
@@ -46,7 +48,7 @@ const onSignIn = () => {
             }
         });
 }
-
+/** MANEJA EL LOG IN CON GOOGLE */
 const onSignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(getAuth(), provider)

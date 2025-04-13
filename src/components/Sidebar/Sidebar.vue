@@ -5,9 +5,9 @@ import SidebarLink from './SidebarLink.vue';
 import { collapsed, toggleSidebar, sidebarWidth } from './state.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
+/** MANEJA EL ESTADO LOGEADO/DESLOGEADO */
 const isLoggedIn = ref(false);
 let auth;
-
 onMounted(() => {
     auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -20,7 +20,7 @@ onMounted(() => {
 
 })
 </script>
-
+<!-- SIDEBAR DEFINITION -->
 <template>
     <div class="sidebar" :style="{ width: sidebarWidth }">
         <h1 class="sidebar-title">
