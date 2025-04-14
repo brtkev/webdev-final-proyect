@@ -1,7 +1,19 @@
 # proyecto-final
 
-This template should help get you started developing with Vue 3 in Vite.
+### SETUP DEL PROYECTO
+```sh
+npm install
+```
+```sh
+npm run dev
+```
 
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
@@ -10,59 +22,55 @@ This template should help get you started developing with Vue 3 in Vite.
 
 See [Vite Configuration Reference](https://vite.dev/config/).
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
- la lista de requisitos ordenada primero por área (estudiante, asignatura, calificación, reporte) y luego por prioridad (Nivel):
-
-Estudiante
-
-Registrar estudiante (Nivel 1)
-Consultar estudiante (Nivel 1)
-Modificar estudiante (Nivel 2)
-Eliminar estudiante (Nivel 3)
 
 
-Asignatura
+ # la lista de requisitos ordenada primero por área (estudiante, asignatura, calificación, reporte) y luego por prioridad (Nivel):
 
-Registrar asignatura (Nivel 1)
-Consultar asignatura (Nivel 1)
-Modificar asignatura (Nivel 2)
-Eliminar asignatura (Nivel 3)
+## Estudiante
 
-
-Matrícula
-
-Matricular estudiante (Nivel 1)
-Desmatricular estudiante (Nivel 2)
+- Registrar estudiante (Nivel 1)
+- Consultar estudiante (Nivel 1)
+- Modificar estudiante (Nivel 2)
+- Eliminar estudiante (Nivel 3)
 
 
-Calificación
+## Asignatura
 
-Registrar calificación (Nivel 1)
-Consultar calificación (Nivel 1)
-Modificar calificación (Nivel 2)
-Eliminar calificación (Nivel 3)
+- Registrar asignatura (Nivel 1)
+- Consultar asignatura (Nivel 1)
+- Modificar asignatura (Nivel 2)
+- Eliminar asignatura (Nivel 3)
 
 
-Reporte
+## Matrícula
 
-Generar reporte (Nivel 2)
+- Matricular estudiante (Nivel 1)
+- Desmatricular estudiante (Nivel 2)
 
-authenticacion 
-# todo
+
+## Calificación
+
+- Registrar calificación (Nivel 1)
+- Consultar calificación (Nivel 1)
+- Modificar calificación (Nivel 2)
+- Eliminar calificación (Nivel 3)
+
+
+## Reporte
+
+- Generar reporte (Nivel 2)
+
+## Authenticacion 
+- Log in
+- Registro
+- Log out
+- seguridad de rutas
+
+## Usabilidad
+- Botones Reactivos
+- Tooltips a Iconos
+- navegacion con sidebar
+- registro con google es mas comodo para aquellos que cuenten con una cuenta registrada en el dispositivo
+- filtrado de dropdowns
+- sidebar resposiva
+- formularios y tablas responsivas
