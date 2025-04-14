@@ -1,5 +1,9 @@
 # proyecto-final
 
+HECHO POR :<br>
+YHONKA MACHADO C.I.:27718080<br>
+KEVIN BRETO C.I.: 28351815<br>
+
 ### SETUP DEL PROYECTO
 ```sh
 npm install
